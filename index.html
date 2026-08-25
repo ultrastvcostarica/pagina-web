@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ULTRAS TV - En Vivo</title>
+    
+    <!-- Video.js CSS -->
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+
+    <style>
+        /* FONDO DE ESTADIO CON TONO MORADO */
+        body { 
+            background-image: linear-gradient(rgba(85, 27, 61, 0.85), rgba(10, 0, 5, 0.95)), url('https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #ffffff; 
+            font-family: 'Arial', sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            text-align: center; 
+        }
+
+        h1.logo-title { 
+            color: #ffffff; 
+            font-size: 4em; 
+            margin-bottom: 10px; 
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 40px #ff2a00; 
+        }
+
+        .btn { 
+            display: inline-block; 
+            padding: 12px 25px; 
+            margin: 5px; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 30px; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        .btn:hover { transform: scale(1.05); }
+        .btn-wa { background-color: #25D366; }
+        .btn-tg { background-color: #0088cc; }
+        .btn-back { background-color: #ffcc00; color: #000; margin-bottom: 20px;}
+
+        .canal-btn-container { margin: 30px auto; }
+        .canal-titulo { font-size: 1.8em; color: #ffcc00; font-weight: bold; margin-bottom: 10px; text-shadow: 1px 1px 3px #000; }
+        .canal-btn { display: block; margin: 0 auto; width: 100%; max-width: 350px; border-radius: 15px; border: 3px solid #ffcc00; box-shadow: 0 10px 20px rgba(0,0,0,0.6); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
+        .canal-btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255, 204, 0, 0.5); }
+
+        .header-section { margin-bottom: 20px; }
+        .view-section { display: none; }
+        
+        /* CONTENEDOR DE VIDEO OPTIMIZADO */
+        .video-container { position: relative; width: 100%; max-width: 852px; margin: auto; border-radius: 10px; overflow: hidden; border: 2px solid #ffcc00; background: #000; }
+        
+        /* ESTILOS MULTIPANTALLA */
+        .multi-container { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; width: 100%; }
+        .multi-box { flex: 1 1 400px; max-width: 500px; border: 2px solid #ffcc00; border-radius: 10px; overflow: hidden; background: #000; }
+
+        /* ESTILOS AGENDA EVENTOS */
+        .evento-card { background: rgba(0, 0, 0, 0.85); border: 2px solid #ffcc00; border-radius: 10px; margin: 15px auto; max-width: 700px; text-align: left; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .evento-header { padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to right, #330000, #000000); transition: background 0.3s; }
+        .evento-header:hover { background: linear-gradient(to right, #550000, #111111); }
+        .evento-hora { color: #ffcc00; font-weight: bold; font-size: 1.1em; min-width: 80px; }
+        .evento-nombre { color: #ffffff; font-weight: bold; flex-grow: 1; margin-left: 15px; font-size: 1.1em; text-transform: uppercase; }
+        .evento-icon { color: #ffcc00; font-size: 1.2em; transition: transform 0.3s; }
+        .evento-canales { display: none; background: #111; padding: 15px; border-top: 1px solid #ffcc00; }
+        .evento-canales a { display: block; color: #fff; text-decoration: none; padding: 12px; margin: 5px 0; background: #222; border-radius: 5px; border-left: 5px solid #ffcc00; font-weight: bold; transition: background 0.3s, padding-left 0.3s; }
+        .evento-canales a:hover { background: #333; padding-left: 20px; color: #ffcc00; }
+
+        footer { font-size: 0.9em; color: #ccc; margin-top: 50px; padding: 20px; background: rgba(0,0,0,0.5); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="header-section">
+        <h1 class="logo-title">ULTRAS TV</h1>
+        <a href="https://whatsapp.com/channel/0029VbCgAbtEAKW5vDVf6o0r" class="btn btn-wa" target="_blank">WhatsApp</a>
+        <a href="https://t.me/Ultrastvligadecampeones" class="btn btn-tg" target="_blank">Telegram</a>
+        
+        <div style="text-align:center;padding:1em 0; max-width: 400px; margin: auto;"> 
+            <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=es&size=medium&timezone=America%2FCosta_Rica" width="100%" height="115" frameborder="0" seamless></iframe> 
+        </div>
+    </div>
+
+    <!-- MENÚ PRINCIPAL -->
+    <div id="inicio" class="view-section">
+        <h2>DISFRUTA DE NUESTRAS SEÑALES EN VIVO</h2>
+        
+        <div class="canal-btn-container">
+            <div class="canal-titulo">CANAL 1</div>
+            <a href="#canal1"><img src="https://i.imgur.com/cVW85ZC.jpeg" class="canal-btn"></a>
+        </div>
+
+        <div class="canal-btn-container">
+            <div class="canal-titulo">CANAL 2</div>
+            <a href="#canal2"><img src="https://i.imgur.com/cVW85ZC.jpeg" class="canal-btn"></a>
+        </div>
+
+        <div class="canal-btn-container">
+            <div class="canal-titulo">MODO MULTIPANTALLA</div>
+            <a href="#multipantalla"><img src="https://i.imgur.com/cVW85ZC.jpeg" class="canal-btn"></a>
+        </div>
+
+        <div class="canal-btn-container">
+            <div class="canal-titulo">OTROS EVENTOS</div>
+            <a href="#otros-eventos"><img src="https://i.imgur.com/cVW85ZC.jpeg" class="canal-btn" style="border-color: #ff2a00;"></a>
+        </div>
+    </div>
+
+    <!-- SECCIÓN CANAL 1 -->
+    <div id="canal1" class="view-section">
+        <a href="#inicio" class="btn btn-back">⬅ Volver al Menú Principal</a>
+        <h2>CANAL 1</h2>
+        <div class="video-container">
+            <video-js id="player-canal1" class="vjs-big-play-centered" controls preload="auto" data-setup='{"fluid": true}'>
+                <source src="https://183.bozztv.com/giatv/giatv-ULTRASTV/ULTRASTV/playlist.m3u8" type="application/x-mpegURL">
+            </video-js>
+        </div>
+        <iframe src="https://www3.cbox.ws/box/?boxid=3549758&boxtag=NvgBi7" width="100%" height="450" style="max-width: 852px; border-radius: 10px; margin-top: 20px; border: none;"></iframe>
+    </div>
+
+    <!-- SECCIÓN CANAL 2 -->
+    <div id="canal2" class="view-section">
+        <a href="#inicio" class="btn btn-back">⬅ Volver al Menú Principal</a>
+        <h2>CANAL 2</h2>
+        <div class="video-container">
+            <video-js id="player-canal2" class="vjs-big-play-centered" controls preload="auto" data-setup='{"fluid": true}'>
+                <source src="https://lbgo.bozztv.com/ssh101/ssh101/ultrastvcr/playlist.m3u8" type="application/x-mpegURL">
+            </video-js>
+        </div>
+        <iframe src="https://www3.cbox.ws/box/?boxid=3555635&boxtag=5oqttB" width="100%" height="450" style="max-width: 852px; border-radius: 10px; margin-top: 20px; border: none;"></iframe>
+    </div>
+
+    <!-- SECCIÓN MULTIPANTALLA -->
+    <div id="multipantalla" class="view-section">
+        <a href="#inicio" class="btn btn-back">⬅ Volver al Menú Principal</a>
+        <h2>MULTIPANTALLA (CANAL 1 + CANAL 2)</h2>
+        <div class="multi-container">
+            <div class="multi-box">
+                <video-js id="player-multi1" class="vjs-big-play-centered" controls preload="auto" data-setup='{"fluid": true}'>
+                    <source src="https://183.bozztv.com/giatv/giatv-ULTRASTV/ULTRASTV/playlist.m3u8" type="application/x-mpegURL">
+                </video-js>
+            </div>
+            <div class="multi-box">
+                <video-js id="player-multi2" class="vjs-big-play-centered" controls preload="auto" data-setup='{"fluid": true}'>
+                    <source src="https://lbgo.bozztv.com/ssh101/ssh101/ultrastvcr/playlist.m3u8" type="application/x-mpegURL">
+                </video-js>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN OTROS EVENTOS (AGENDA) -->
+    <div id="otros-eventos" class="view-section">
+        <a href="#inicio" class="btn btn-back">⬅ Volver al Menú Principal</a>
+        <h2>AGENDA DE EVENTOS</h2>
+        
+        <!-- EVENTO 1 -->
+        <div class="evento-card">
+            <div class="evento-header" onclick="toggleCanales('ev1')">
+                <span class="evento-hora">10:45 AM</span>
+                <span class="evento-nombre">SABAH VS HAPOEL BEER SHEVA</span>
+                <span class="evento-icon">▼</span>
+            </div>
+            <div class="evento-canales" id="ev1">
+                <a href="#" onclick="reproducirEvento(event, 'https://183.bozztv.com/giatv/giatv-ULTRASTV/ULTRASTV/playlist.m3u8', 'ULTRAS TV - SABAH VS HAPOEL')">📺 ULTRAS TV</a>
+                <a href="#" onclick="reproducirEvento(event, 'http://38.134.250.110:8000/play/a015/index.m3u8', 'ESPN 3 - SABAH VS HAPOEL')">📺 ESPN 3</a>
+            </div>
+        </div>
+
+        <!-- EVENTO 2 -->
+        <div class="evento-card">
+            <div class="evento-header" onclick="toggleCanales('ev2')">
+                <span class="evento-hora">13:00 PM</span>
+                <span class="evento-nombre">BODO/GLIMT VS NEC NIJMEGEN</span>
+                <span class="evento-icon">▼</span>
+            </div>
+            <div class="evento-canales" id="ev2">
+                <a href="#" onclick="reproducirEvento(event, 'https://183.bozztv.com/giatv/giatv-ULTRASTV/ULTRASTV/playlist.m3u8', 'ULTRAS TV - BODO/GLIMT VS NEC')">📺 ULTRAS TV</a>
+                <a href="#" onclick="reproducirEvento(event, 'http://38.134.250.110:8000/play/a015/index.m3u8', 'ESPN 3 - BODO/GLIMT VS NEC')">📺 ESPN 3</a>
+            </div>
+        </div>
+
+        <!-- EVENTO 3 -->
+        <div class="evento-card">
+            <div class="evento-header" onclick="toggleCanales('ev3')">
+                <span class="evento-hora">13:00 PM</span>
+                <span class="evento-nombre">VALENCIA VS REAL BETIS</span>
+                <span class="evento-icon">▼</span>
+            </div>
+            <div class="evento-canales" id="ev3">
+                <a href="#" onclick="reproducirEvento(event, 'https://lbgo.bozztv.com/ssh101/ssh101/ultrastvcr/playlist.m3u8', 'ULTRAS TV 2 - VALENCIA VS REAL BETIS')">📺 ULTRAS TV 2</a>
+                <a href="#" onclick="reproducirEvento(event, 'http://38.134.250.110:8000/play/a00r/index.m3u8', 'ESPN 2 - VALENCIA VS REAL BETIS')">📺 ESPN 2</a>
+                <a href="#" onclick="reproducirEvento(event, 'http://190.105.128.198:5800/play/a087/index.m3u8', 'SKY SPORTS LALIGA - VALENCIA VS REAL BETIS')">📺 SKY SPORTS LALIGA</a>
+            </div>
+        </div>
+
+        <!-- EVENTO 4 -->
+        <div class="evento-card">
+            <div class="evento-header" onclick="toggleCanales('ev4')">
+                <span class="evento-hora">18:30 PM</span>
+                <span class="evento-nombre">INDEPENDIENTE DEL VALLE VS DEPORTES TOLIMA</span>
+                <span class="evento-icon">▼</span>
+            </div>
+            <div class="evento-canales" id="ev4">
+                <a href="#" onclick="reproducirEvento(event, 'https://183.bozztv.com/giatv/giatv-ULTRASTV/ULTRASTV/playlist.m3u8', 'ULTRAS TV - IDV VS TOLIMA')">📺 ULTRAS TV</a>
+                <a href="#" onclick="reproducirEvento(event, 'http://38.134.250.110:8000/play/a00q/index.m3u8', 'ESPN COLOMBIA - IDV VS TOLIMA')">📺 ESPN COLOMBIA</a>
+            </div>
+        </div>
+
+        <!-- EVENTO 5 -->
+        <div class="evento-card">
+            <div class="evento-header" onclick="toggleCanales('ev5')">
+                <span class="evento-hora">18:30 PM</span>
+                <span class="evento-nombre">MONTERREY VS CHICAGO FIRE</span>
+                <span class="evento-icon">▼</span>
+            </div>
+            <div class="evento-canales" id="ev5">
+                <a href="#" onclick="reproducirEvento(event, 'https://lbgo.bozztv.com/ssh101/ssh101/ultrastvcr/playlist.m3u8', 'ULTRAS TV 2 - MONTERREY VS CHICAGO FIRE')">📺 ULTRAS TV 2</a>
+            </div>
+        </div>
+
+        <!-- EVENTO 6 -->
+        <div class="evento-card">
+            <div class="evento-header" onclick="toggleCanales('ev6')">
+                <span class="evento-hora">20:30 PM</span>
+                <span class="evento-nombre">CARTAGINES VS FAS</span>
+                <span class="evento-icon">▼</span>
+            </div>
+            <div class="evento-canales" id="ev6">
+                <a href="#" onclick="reproducirEvento(event, 'https://183.bozztv.com/giatv/giatv-ULTRASTV/ULTRASTV/playlist.m3u8', 'ULTRAS TV - CARTAGINES VS FAS')">📺 ULTRAS TV</a>
+            </div>
+        </div>
+
+        <!-- EVENTO 7 -->
+        <div class="evento-card">
+            <div class="evento-header" onclick="toggleCanales('ev7')">
+                <span class="evento-hora">20:30 PM</span>
+                <span class="evento-nombre">MUNICIPAL VS MOTAGUA</span>
+                <span class="evento-icon">▼</span>
+            </div>
+            <div class="evento-canales" id="ev7">
+                <a href="#" onclick="reproducirEvento(event, 'https://lbgo.bozztv.com/ssh101/ssh101/ultrastvcr/playlist.m3u8', 'ULTRAS TV 2 - MUNICIPAL VS MOTAGUA')">📺 ULTRAS TV 2</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- REPRODUCTOR DINÁMICO PARA LOS EVENTOS -->
+    <div id="reproductor-dinamico" class="view-section">
+        <a href="#otros-eventos" class="btn btn-back">⬅ Volver a la Agenda</a>
+        <h2 id="titulo-evento">TRANSMISIÓN EN VIVO</h2>
+        <div class="video-container">
+            <video-js id="player-evento-dinamico" class="vjs-big-play-centered" controls preload="auto" data-setup='{"fluid": true}'>
+                <source src="" type="application/x-mpegURL">
+            </video-js>
+        </div>
+        <!-- Si quieres agregar el chat de cbox aquí también, puedes descomentar la siguiente línea -->
+        <!-- <iframe src="https://www3.cbox.ws/box/?boxid=3549758&boxtag=NvgBi7" width="100%" height="450" style="max-width: 852px; border-radius: 10px; margin-top: 20px; border: none;"></iframe> -->
+    </div>
+
+    <footer>
+        <p><strong>SE PROHÍBE EL USO DEL CONTENIDO SIN PREVIA AUTORIZACIÓN.</strong></p>
+        <p>&copy; 2026 ULTRAS TV - Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Video.js JS CDN -->
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
+    <script>
+        // Lógica de navegación entre canales y secciones
+        function cambiarPagina() {
+            // Ocultar todas las secciones primero
+            const secciones = ['inicio', 'canal1', 'canal2', 'multipantalla', 'otros-eventos', 'reproductor-dinamico'];
+            secciones.forEach(id => document.getElementById(id).style.display = 'none');
+
+            const hash = window.location.hash;
+
+            if (hash === '#canal1') {
+                document.getElementById('canal1').style.display = 'block';
+            } else if (hash === '#canal2') {
+                document.getElementById('canal2').style.display = 'block';
+            } else if (hash === '#multipantalla') {
+                document.getElementById('multipantalla').style.display = 'block';
+            } else if (hash === '#otros-eventos') {
+                document.getElementById('otros-eventos').style.display = 'block';
+            } else if (hash === '#reproductor-dinamico') {
+                document.getElementById('reproductor-dinamico').style.display = 'block';
+            } else {
+                document.getElementById('inicio').style.display = 'block';
+            }
+        }
+        window.addEventListener('load', cambiarPagina);
+        window.addEventListener('hashchange', cambiarPagina);
+
+        // Función para abrir y cerrar la lista de canales en la agenda
+        function toggleCanales(id) {
+            const canales = document.getElementById(id);
+            if (canales.style.display === 'block') {
+                canales.style.display = 'none';
+            } else {
+                canales.style.display = 'block';
+            }
+        }
+
+        // Función para cargar el reproductor dinámico con el enlace seleccionado
+        function reproducirEvento(event, url, titulo) {
+            event.preventDefault(); // Evita que la página salte al hacer clic
+            
+            // Cambiar el título
+            document.getElementById('titulo-evento').innerText = titulo;
+            
+            // Cargar la nueva URL en el reproductor de Video.js
+            const player = videojs('player-evento-dinamico');
+            player.src({ src: url, type: 'application/x-mpegURL' });
+            player.play().catch(function(error) {
+                console.log("El navegador requiere interacción manual para reproducir automáticamente.");
+            });
+
+            // Cambiar la vista
+            window.location.hash = '#reproductor-dinamico';
+        }
+
+        // Sistema de auto-recuperación de errores
+        window.addEventListener('load', function() {
+            // Actualizados con los nuevos enlaces que proporcionaste
+            const url1 = "https://183.bozztv.com/giatv/giatv-ULTRASTV/ULTRASTV/playlist.m3u8";
+            const url2 = "https://lbgo.bozztv.com/ssh101/ssh101/ultrastvcr/playlist.m3u8";
+
+            function configurarAutoRecuperacion(idPlayer, urlStream) {
+                if (document.getElementById(idPlayer)) {
+                    const player = videojs(idPlayer);
+                    player.on('error', function() {
+                        console.warn('Interrupción detectada en ' + idPlayer + '. Reintentando conexión...');
+                        setTimeout(function() {
+                            player.src({ src: urlStream, type: 'application/x-mpegURL' });
+                            player.load();
+                            player.play().catch(e => console.log("Se requiere clic del usuario para reanudar el audio."));
+                        }, 3000); 
+                    });
+                }
+            }
+
+            // Aplicar la protección
+            configurarAutoRecuperacion('player-canal1', url1);
+            configurarAutoRecuperacion('player-canal2', url2);
+            configurarAutoRecuperacion('player-multi1', url1);
+            configurarAutoRecuperacion('player-multi2', url2);
+        });
+    </script>
+</body>
+</html>
